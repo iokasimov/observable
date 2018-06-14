@@ -1,4 +1,4 @@
-# Make your action to be observable and listen events from them.
+# Make your actions to be observable and listen events from them, algebraically.
 
 Let's imagine simple example: we want to listen to STDIN. We have `getLine` function that can capture a list of ASCII-symbols - all we need is to make this action to be observable.
 
