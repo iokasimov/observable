@@ -1,6 +1,7 @@
 name:                observable
 version:             0.1.0
-synopsis:            ...
+synopsis:            Make your action to be observable and listen events from them.
+description:         Make your action to be observable and listen events from them.
 homepage:            https://github.com/iokasimov/observable
 license:             BSD3
 license-file:        LICENSE
@@ -10,7 +11,6 @@ copyright:           Copyright (c) 2018 Murat Kasimov
 category:            Data, Control
 build-type:          Simple
 cabal-version:       >= 1.10
-description:         ...
 
 source-repository head
   type: git
