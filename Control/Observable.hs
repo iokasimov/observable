@@ -6,16 +6,21 @@ import Control.Monad.Trans.Class (lift)
 
 newtype Mock r f a = Mock { mock :: f r }
 
-type Observable f a b = ContT b (Mock b f) a
+-- | Mock used here as delimiter
+type Observable f a r = ContT r (Mock r f) a
 
-dispatch :: ContT b f a -> Observable f a b
+-- | Make continuation to be observable
+dispatch :: ContT r f a -> Observable f a r
 dispatch f = ContT $ \h -> Mock $ runContT f (mock . h)
 
-obs :: Monad f => f a -> Observable f a b
+-- | Make monadic action to be observable
+obs :: Monad f => f a -> Observable f a r
 obs action = dispatch (lift action)
 
-subscribe :: Applicative f => Observable f a b -> (a -> f b) -> f b
+-- | Listen all event from action, forever
+subscribe :: Applicative f => Observable f a r -> (a -> f r) -> f r
 subscribe r f = forever $ mock $ runContT r (Mock . f)
 
-notify :: Observable f a b -> (a -> f b) -> f b
+-- | Listen only first event, just once
+notify :: Observable f a r -> (a -> f r) -> f r
 notify r f = mock $ runContT r (Mock . f)
