@@ -1,4 +1,4 @@
-module Control.Observable (Observable, dispatch, subscribe, notify, obs) where
+module Control.Observable (Observable, (*=>), dispatch, subscribe, notify, obs) where
 
 import Control.Applicative (Applicative)
 import Control.Monad (Monad, forever)
@@ -26,3 +26,7 @@ subscribe r f = forever $ captured $ runContT r (Capture . f)
 -- | Listen only first event, just once
 notify :: Observable f a r -> (a -> f r) -> f r
 notify r f = captured $ runContT r (Capture . f)
+
+-- | Looks like a bind, but it has another semantics
+(*=>) :: Monad f => f a -> (a -> f r) -> f r
+action *=> handler = subscribe (dispatch action) handler
