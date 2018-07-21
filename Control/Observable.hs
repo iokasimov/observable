@@ -1,10 +1,10 @@
 module Control.Observable (Observable, (*=>), dispatch, subscribe, notify, obs) where
 
-import Control.Applicative (Applicative)
-import Control.Monad (Monad, forever)
-import Control.Monad.Trans.Cont (ContT (..))
-import Control.Monad.Trans.Class (lift)
-import Data.Function (($), (.))
+import "base" Control.Applicative (Applicative)
+import "base" Control.Monad (Monad, forever)
+import "base" Data.Function (($), (.))
+import "transformers" Control.Monad.Trans.Cont (ContT (..))
+import "transformers" Control.Monad.Trans.Class (lift)
 
 newtype Capture r f a = Capture { captured :: f r }
 
