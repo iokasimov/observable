@@ -29,4 +29,4 @@ notify r f = captured $ runContT r (Capture . f)
 
 -- | Looks like a bind, but it has another semantics
 (*=>) :: Monad f => f a -> (a -> f r) -> f r
-action *=> handler = subscribe (dispatch action) handler
+action *=> handler = subscribe (obs action) handler
