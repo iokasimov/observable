@@ -1,5 +1,5 @@
 name:                observable
-version:             0.1.0
+version:             0.1.1
 synopsis:            Make your action to be observable and listen events from them.
 description:         Make your action to be observable and listen events from them.
 homepage:            https://github.com/iokasimov/observable

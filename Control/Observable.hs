@@ -1,8 +1,9 @@
 module Control.Observable (Observable, (*=>), dispatch, subscribe, notify, obs) where
 
-import "base" Control.Applicative (Applicative)
+import "base" Control.Applicative (Applicative (pure))
 import "base" Control.Monad (Monad, forever)
-import "base" Data.Function (($), (.))
+import "base" Data.Function (($), (.), flip)
+import "base" Data.Traversable (Traversable (traverse))
 import "transformers" Control.Monad.Trans.Cont (ContT (..))
 import "transformers" Control.Monad.Trans.Class (lift)
 
@@ -30,3 +31,7 @@ notify r f = captured $ runContT r (Capture . f)
 -- | Looks like a bind, but it has another semantics
 (*=>) :: Monad f => f a -> (a -> f r) -> f r
 action *=> handler = subscribe (obs action) handler
+
+-- | Yield all a over some t with callback function
+bypass :: (Monad f, Traversable t) => t a -> (a -> f r) -> f (t r)
+bypass xs h = traverse (flip notify h . dispatch . pure) xs
