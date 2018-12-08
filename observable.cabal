@@ -1,14 +1,16 @@
 name:                observable
 version:             0.1.2
-synopsis:            Make your action to be observable and listen events from them.
-description:         Make your action to be observable and listen events from them.
+synopsis:            Continuation patterns
+description:         Make your actions to be observable and handle events from them.
 homepage:            https://github.com/iokasimov/observable
+bug-reports:         https://github.com/iokasimov/observable/issues
+extra-source-files:  CHANGELOG.md
 license:             BSD3
 license-file:        LICENSE
 author:              Murat Kasimov
 maintainer:          Murat Kasimov <iokasimov.m@gmail.com>
 copyright:           Copyright (c) 2018 Murat Kasimov
-category:            Data, Control
+category:            Control
 build-type:          Simple
 cabal-version:       >= 1.10
 
