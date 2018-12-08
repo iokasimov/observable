@@ -9,7 +9,7 @@ import "transformers" Control.Monad.Trans.Class (lift)
 
 newtype Capture r f a = Capture { captured :: f r }
 
--- | Capture used here as delimiter
+-- | Capture used here as limiter of continuation
 type Observable f a r = ContT r (Capture r f) a
 
 -- | Make continuation to be observable
@@ -20,22 +20,14 @@ dispatch f = ContT $ \h -> Capture $ runContT f (captured . h)
 obs :: Monad f => f a -> Observable f a r
 obs action = dispatch $ lift action
 
--- | Listen all events from action, just once
+-- | Listen all events from action, call back just once
 subscribe :: Applicative f => Observable f a r -> (a -> f r) -> f r
 subscribe r f = forever $ captured $ runContT r (Capture . f)
 
--- | Listen only first event, just once
+-- | Listen only first event, call back just once
 notify :: Observable f a r -> (a -> f r) -> f r
 notify r f = captured $ runContT r (Capture . f)
 
--- | Listen only first event, forever
+-- | Listen only first event, call back forever
 uprise :: Applicative f => Observable f a r -> (a -> f r) -> f r
 uprise r f = captured $ runContT r (Capture . forever . f)
-
--- | Looks like a bind, but it has another semantics
-(*=>) :: Monad f => f a -> (a -> f r) -> f r
-action *=> handler = subscribe (obs action) handler
-
--- | Yield all a over some t with callback function
-bypass :: (Monad f, Traversable t) => t a -> (a -> f r) -> f (t r)
-bypass xs h = traverse (flip notify h . dispatch . pure) xs

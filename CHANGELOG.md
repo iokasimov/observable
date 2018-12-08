@@ -6,3 +6,4 @@
 
 # 0.1.2
 * Add `uprise` combinator
+* Remove `bypass` and `(*=>)`
