@@ -20,13 +20,17 @@ dispatch f = ContT $ \h -> Capture $ runContT f (captured . h)
 obs :: Monad f => f a -> Observable f a r
 obs action = dispatch $ lift action
 
--- | Listen all event from action, forever
+-- | Listen all events from action, just once
 subscribe :: Applicative f => Observable f a r -> (a -> f r) -> f r
 subscribe r f = forever $ captured $ runContT r (Capture . f)
 
 -- | Listen only first event, just once
 notify :: Observable f a r -> (a -> f r) -> f r
 notify r f = captured $ runContT r (Capture . f)
+
+-- | Listen only first event, forever
+uprise :: Applicative f => Observable f a r -> (a -> f r) -> f r
+uprise r f = captured $ runContT r (Capture . forever . f)
 
 -- | Looks like a bind, but it has another semantics
 (*=>) :: Monad f => f a -> (a -> f r) -> f r
