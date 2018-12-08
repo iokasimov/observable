@@ -1,4 +1,4 @@
-module Control.Observable (Observable, dispatch, obs, subscribe, notify, uprise) where
+module Control.Observable (Observable, dispatch, obs, subscribe, notify, uprise, watch) where
 
 import "base" Control.Applicative (Applicative (pure))
 import "base" Control.Monad (Monad, forever)
@@ -31,3 +31,7 @@ notify r f = captured $ runContT r (Capture . f)
 -- | Listen only first event, call back forever
 uprise :: Applicative f => Observable f a r -> (a -> f r) -> f r
 uprise r f = captured $ runContT r (Capture . forever . f)
+
+-- | Listen all events from action, call back forever
+watch :: Applicative f => Observable f a r -> (a -> f r) -> f r
+watch r f = forever $ captured $ runContT r (Capture . forever . f)
