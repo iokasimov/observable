@@ -1,4 +1,4 @@
-module Control.Observable (Observable, (*=>), dispatch, subscribe, notify, obs, bypass) where
+module Control.Observable (Observable, dispatch, obs, subscribe, notify, uprise) where
 
 import "base" Control.Applicative (Applicative (pure))
 import "base" Control.Monad (Monad, forever)
