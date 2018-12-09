@@ -1,7 +1,7 @@
 module Control.Observable
 	( Observable, dispatch, obs
 	, notify, chase, subscribe, watch
-	, (.:~>:.), (.:~>:*), (*:~>:.), (*:~>:*)
+	, (.:~.), (.:~*), (*:~.), (*:~*)
 	) where
 
 import "base" Control.Applicative (Applicative (pure))
@@ -29,29 +29,29 @@ notify :: Observable f a r -> (a -> f r) -> f r
 notify r f = captured $ runContT r (Capture . f)
 
 -- | Infix version of 'notify'
-(.:~>:.) :: Observable f a r -> (a -> f r) -> f r
-(.:~>:.) = notify
+(.:~.) :: Observable f a r -> (a -> f r) -> f r
+(.:~.) = notify
 
 -- | Listen only first event, call back forever
 chase :: Applicative f => Observable f a r -> (a -> f r) -> f r
 chase r f = captured $ runContT r (Capture . forever . f)
 
 -- | Infix version of 'chase'
-(.:~>:*) :: Applicative f => Observable f a r -> (a -> f r) -> f r
-(.:~>:*) = chase
+(.:~*) :: Applicative f => Observable f a r -> (a -> f r) -> f r
+(.:~*) = chase
 
 -- | Listen all events from action, call back just once
 subscribe :: Applicative f => Observable f a r -> (a -> f r) -> f r
 subscribe r f = forever $ captured $ runContT r (Capture . f)
 
 -- | Infix version of 'subscribe'
-(*:~>:.) :: Applicative f => Observable f a r -> (a -> f r) -> f r
-(*:~>:.) = subscribe
+(*:~.) :: Applicative f => Observable f a r -> (a -> f r) -> f r
+(*:~.) = subscribe
 
 -- | Listen all events from action, call back forever
 watch :: Applicative f => Observable f a r -> (a -> f r) -> f r
 watch r f = forever $ captured $ runContT r (Capture . forever . f)
 
 -- | Infix version of 'watch'
-(*:~>:*) :: Applicative f => Observable f a r -> (a -> f r) -> f r
-(*:~>:*) = watch
+(*:~*) :: Applicative f => Observable f a r -> (a -> f r) -> f r
+(*:~*) = watch
