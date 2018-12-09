@@ -10,3 +10,5 @@
 
 # 0.1.3
 * Add `watch` combinator
+* Rename `uprise` to `chase`
+* Add four infix combinators
