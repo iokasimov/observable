@@ -1,5 +1,5 @@
 name:                observable
-version:             0.1.4
+version:             0.1.5
 synopsis:            Continuation patterns
 description:         Make your actions to be observable and handle events from them.
 homepage:            https://github.com/iokasimov/observable

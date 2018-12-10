@@ -1,6 +1,6 @@
 module Control.Observable
 	( Observable, dispatch, obs
-	, notify, chase, subscribe, watch
+	, notify, follow, subscribe, watch
 	, (.:~.), (.:~*), (*:~.), (*:~*)
 	) where
 
@@ -33,12 +33,12 @@ notify r f = captured $ runContT r (Capture . f)
 (.:~.) = notify
 
 -- | Listen only first event, call back forever
-chase :: Applicative f => Observable f a r -> (a -> f r) -> f r
-chase r f = captured $ runContT r (Capture . forever . f)
+follow :: Applicative f => Observable f a r -> (a -> f r) -> f r
+follow r f = captured $ runContT r (Capture . forever . f)
 
--- | Infix version of 'chase'
+-- | Infix version of 'follow'
 (.:~*) :: Applicative f => Observable f a r -> (a -> f r) -> f r
-(.:~*) = chase
+(.:~*) = follow
 
 -- | Listen all events from action, call back just once
 subscribe :: Applicative f => Observable f a r -> (a -> f r) -> f r

@@ -15,3 +15,6 @@
 
 # 0.1.4
 * Remove `Usage.Heartbeat` module
+
+# 0.1.5
+* Rename `chase` to `follow`
