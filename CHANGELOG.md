@@ -12,3 +12,6 @@
 * Add `watch` combinator
 * Rename `uprise` to `chase`
 * Add four infix combinators
+
+# 0.1.4
+* Remove `Usage.Heartbeat` module
